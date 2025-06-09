@@ -43,17 +43,14 @@ public class FeedbackServiceImpl implements IFeedbackService {
 	@Override
 	public FeedbackDTO addFeedback(FeedbackDTO feedbackDto) {
 		System.out.println(feedbackDto.toString());
-		if (recruiterDao.existsByUserName(feedbackDto.getRecruiterUname())
-				&& freelancerDao.existsByUserName(feedbackDto.getFreelancerUname())) {
+		if (recruiterDao.existsByUserName(feedbackDto.getRecruiterUName())
+				&& freelancerDao.existsByUserName(feedbackDto.getFreelancerUName())) {
 			
-			Recruiter recruiter = recruiterDao.findByUserName(feedbackDto.getRecruiterUname());
-			Freelancer freelancer = freelancerDao.findByUserName(feedbackDto.getFreelancerUname());
+			Recruiter recruiter = recruiterDao.findByUserName(feedbackDto.getRecruiterUName());
+			Freelancer freelancer = freelancerDao.findByUserName(feedbackDto.getFreelancerUName());
 			Feedback feedback = convertToEntity(feedbackDto);
-
-//			feedback.setComment(feedbackDto.getComments());
-//			feedback.setRanges(feedbackDto.getRanges());
-//			feedback.setCreatedBy(recruiter);
-//			feedback.setCreatedFor(freelancer);
+			feedback.setCreatedBy(recruiter);
+			feedback.setCreatedFor(freelancer);
 
 			return convertToDto(feedbackDao.save(feedback));
 		} else
@@ -64,7 +61,8 @@ public class FeedbackServiceImpl implements IFeedbackService {
 	@Override
 	public List<FeedbackListDTO> findFeedbacksForFreelancerByRecruiter(String fId, String rId) {
 
-		return feedbackDao.findFeedbacksForFreelancerByRecruiterId(fId, rId);
+	List<FeedbackListDTO> list1= feedbackDao.findFeedbacksForFreelancerByRecruiterId(fId, rId);
+	return  list1;
 	}
 
 	private FeedbackDTO convertToDto(Feedback feedback){

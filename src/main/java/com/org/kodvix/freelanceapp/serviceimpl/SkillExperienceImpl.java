@@ -1,6 +1,7 @@
 package com.org.kodvix.freelanceapp.serviceimpl;
 
 import com.org.kodvix.freelanceapp.dao.IFreelancerDao;
+import com.org.kodvix.freelanceapp.dao.IJobSeekerDao;
 import com.org.kodvix.freelanceapp.dao.ISkillDao;
 import com.org.kodvix.freelanceapp.dao.ISkillExperienceDao;
 import com.org.kodvix.freelanceapp.dto.SkillExperienceDTO;
@@ -24,12 +25,15 @@ public class SkillExperienceImpl implements ISkillExperienceService {
 	ISkillDao skillDao;
 	@Autowired
 	IFreelancerDao freelancerDao;
+	@Autowired
+	IJobSeekerDao jobseekerDao;
 
 	@Override
 	public SkillExperience addSkill(SkillExperienceDTO skillExperienceDto) {
 		SkillExperience skillExperience = new SkillExperience();
 		skillExperience.setYears(skillExperienceDto.getYears());
 		skillExperience.setFreelancer(freelancerDao.findById(skillExperienceDto.getFreelancerId()).get());
+		skillExperience.setJobSeeker(jobseekerDao.findById(skillExperienceDto.getJobseekerId()).get());
 		skillExperience.setSkill(skillDao.findById(skillExperienceDto.getSkillId()).get());
 		return skillExperienceDao.save(skillExperience);
 	}

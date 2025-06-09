@@ -57,6 +57,9 @@ public class JobApplicationsListDTO {
 		this.JobseekerUName = jobseekerUName;
 	}
 
+
+
+
 	public Long getId() {
 		return id;
 	}

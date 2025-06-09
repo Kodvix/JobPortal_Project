@@ -31,8 +31,23 @@ public interface IJobApplicationDao extends JpaRepository<JobApplication, Long> 
 			"ORDER BY ja.id")
     List<JobApplicationsListDTO> findAllByJobId(@Param("jobId") Long jobId);
 
-    @Query("select new com.org.kodvix.freelanceapp.dto.JobApplicationsListDTO(j.id, j.job.id, j.job.jobTitle, j.coverLetter, f.id, CONCAT(f.firstName,' ', f.lastName), f.userName)  from JobApplication j, Freelancer f where j.freelancer = f order by j.id")
-    List<JobApplicationsListDTO> findAllApps();
+	@Query("SELECT new com.org.kodvix.freelanceapp.dto.JobApplicationsListDTO( " +
+			"j.id, " +
+			"j.job.id, " +
+			"j.job.jobTitle, " +
+			"j.coverLetter, " +
+			"f.id, " +
+			"CONCAT(f.firstName, ' ', f.lastName), " +
+			"f.userName, " +
+			"js.id, " +
+			"CONCAT(js.firstName, ' ', js.lastName), " +
+			"js.userName) " +
+			"FROM JobApplication j " +
+			"JOIN j.freelancer f " +
+			"JOIN j.jobSeeker js")
+	List<JobApplicationsListDTO> findAllApps();
+
+
 
     @Query("select new com.org.kodvix.freelanceapp.dto.JobApplicationsListDTO(j.id, j.job.id, j.job.jobTitle, j.coverLetter, f.id, CONCAT(f.firstName,' ', f.lastName), f.userName)  from JobApplication j, Freelancer f where f.id=:frId and j.job.id=:jobId")
     List<JobApplicationsListDTO> findByFreelancerId(@Param("jobId") Long jobId, @Param("frId") Long frId);

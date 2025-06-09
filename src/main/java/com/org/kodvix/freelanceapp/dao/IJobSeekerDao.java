@@ -1,13 +1,10 @@
 package com.org.kodvix.freelanceapp.dao;
 
-import com.org.kodvix.freelanceapp.dto.FreelancerListDTO;
-import com.org.kodvix.freelanceapp.dto.JobApplicationsListDTO;
+
 import com.org.kodvix.freelanceapp.dto.JobSeekerListDTO;
-import com.org.kodvix.freelanceapp.entities.Freelancer;
 import com.org.kodvix.freelanceapp.entities.JobSeeker;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.Query;;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

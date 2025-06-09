@@ -76,7 +76,7 @@ public class JobApplicationController {
 
 
 
-	@PutMapping(value = "/update/{id}")
+		@PutMapping(value = "/update/{id}")
 	public ResponseEntity<Object> updateJobApplication(@Valid @PathVariable Long id,
 			@RequestBody JobApplicationDTO jobApplicationDto, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
@@ -106,9 +106,9 @@ public class JobApplicationController {
 		}
 	}
 
-	@GetMapping(value = "/findByFrId/job/{jobId}/frId/{frId}")
-	public ResponseEntity<Object> findByFrId(@PathVariable Long jobId, @PathVariable Long frId) {
-		return new ResponseEntity<>(jobApplicationService.findByFreelancerId(jobId, frId), HttpStatus.OK);
-	}
+//	@GetMapping(value = "/findByFrId/job/{jobId}/frId/{frId}")
+//	public ResponseEntity<Object> findByFrId(@PathVariable Long jobId, @PathVariable Long frId) {
+//		return new ResponseEntity<>(jobApplicationService.findByFreelancerId(jobId, frId), HttpStatus.OK);
+//	}
 
 }
