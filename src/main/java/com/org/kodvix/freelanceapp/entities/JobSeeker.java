@@ -27,8 +27,13 @@ public class JobSeeker implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(targetEntity = JobApplication.class)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobApplication> appliedJobs;
+
+
+    @OneToMany(mappedBy = "jobSeeker", targetEntity = SkillExperience.class, cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+    private List<SkillExperience> skills;
 
     public JobSeeker() {
     }
@@ -48,7 +53,17 @@ public class JobSeeker implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-  //      this.appliedJobs = appliedJobs;
+        //      this.appliedJobs = appliedJobs;
+    }
+
+    public JobSeeker(Long id, String userName, String firstName, String lastName, String password, List<JobApplication> appliedJobs, List<SkillExperience> skills) {
+        this.id = id;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.appliedJobs = appliedJobs;
+        this.skills = skills;
     }
 
     public Long getId() {
@@ -98,4 +113,15 @@ public class JobSeeker implements Serializable {
     public void setAppliedJobs(List<JobApplication> appliedJobs) {
         this.appliedJobs = appliedJobs;
     }
+
+    public List<SkillExperience> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<SkillExperience> skills) {
+        this.skills = skills;
+    }
 }
+
+
+
