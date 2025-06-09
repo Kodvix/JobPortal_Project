@@ -1,22 +1,28 @@
 package com.org.kodvix.freelanceapp.controller;
 
 
-import com.org.kodvix.freelanceapp.dto.FreelancerDTO;
+import com.org.kodvix.freelanceapp.dao.IJobSeekerDao;
 import com.org.kodvix.freelanceapp.dto.JobSeekerDTO;
-import com.org.kodvix.freelanceapp.entities.Freelancer;
 import com.org.kodvix.freelanceapp.entities.JobSeeker;
 import com.org.kodvix.freelanceapp.exceptions.InvalidFreelancerException;
 import com.org.kodvix.freelanceapp.exceptions.InvalidJobSeekerException;
 import com.org.kodvix.freelanceapp.exceptions.JobPortalValidationException;
 import com.org.kodvix.freelanceapp.service.IJobSeekerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +33,39 @@ public class JobSeekerController {
 
     @Autowired
     IJobSeekerService jobSeekerService;
+
+    @Autowired
+    IJobSeekerDao jobSeekerDao;
+
+
+    @PostMapping("/{id}/upload-resume")
+    public ResponseEntity<String> uploadResume(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) {
+        try {
+            String path = jobSeekerService.storeResume(id, file);
+            return ResponseEntity.ok("Resume uploaded: " + path);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Upload failed: " + e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/{id}/resume")
+    public ResponseEntity<UrlResource> downloadResume(@PathVariable Long id) throws IOException {
+        JobSeeker jobSeeker = jobSeekerDao.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found"));
+
+        Path path = Paths.get(jobSeeker.getResumePath());
+        UrlResource resource = new UrlResource(path.toUri());
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + path.getFileName())
+                .body(resource);
+    }
+
 
     @PostMapping("/add")
     public ResponseEntity<Object> createFreelancer(@Valid @RequestBody JobSeekerDTO jobSeekerDTO,

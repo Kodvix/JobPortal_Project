@@ -7,14 +7,16 @@ import com.org.kodvix.freelanceapp.dto.JobSeekerListDTO;
 import com.org.kodvix.freelanceapp.entities.Freelancer;
 import com.org.kodvix.freelanceapp.entities.JobSeeker;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Service
 public interface IJobSeekerService {
 
-   JobSeeker findById(Long id);
+    JobSeeker findById(Long id);
 
     //Long getCurrentId();
 
@@ -25,4 +27,8 @@ public interface IJobSeekerService {
     //JobSeeker findByUserName(String userName);
 
     List<JobSeekerListDTO> listJobSeekers();
+
+    String storeResume(Long jobseekerId, MultipartFile file) throws IOException;
+
+
 }

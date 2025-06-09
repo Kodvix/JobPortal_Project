@@ -35,6 +35,7 @@ public class JobSeeker implements Serializable {
             CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
     private List<SkillExperience> skills;
 
+
     public JobSeeker() {
     }
 
@@ -53,7 +54,28 @@ public class JobSeeker implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-  //      this.appliedJobs = appliedJobs;
+        //      this.appliedJobs = appliedJobs;
+    }
+
+    public JobSeeker(Long id, String userName, String firstName, String lastName, String password, List<JobApplication> appliedJobs, List<SkillExperience> skills) {
+        this.id = id;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.appliedJobs = appliedJobs;
+        this.skills = skills;
+    }
+
+    public JobSeeker(Long id, String userName, String firstName, String lastName, String password, List<JobApplication> appliedJobs, List<SkillExperience> skills, String resumePath) {
+        this.id = id;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.appliedJobs = appliedJobs;
+        this.skills = skills;
+        this.resumePath = resumePath;
     }
 
     public JobSeeker(Long id, String userName, String firstName, String lastName, String password, List<JobApplication> appliedJobs, List<SkillExperience> skills) {
