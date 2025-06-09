@@ -27,7 +27,7 @@ public class SkillExperienceController {
 	@ApiOperation(value = "Add skill")
 	@PostMapping("/add")
 	public ResponseEntity<Object> addSkillExperience(@Valid @RequestBody SkillExperienceDTO skillexperienceDto,
-			BindingResult bindingResult) {
+													 BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			System.out.println("Some errors exist!");
 			List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -58,7 +58,7 @@ public class SkillExperienceController {
 
 	@PutMapping("/update/freelancer/{freelancerId}/skill/{id}")
 	public ResponseEntity<Object> updateSkillYears(@PathVariable Long id, @PathVariable Long freelancerId,
-			@RequestParam(value = "years") Integer years) {
+												   @RequestParam(value = "years") Integer years) {
 		System.out.println(years);
 		try {
 			skillExperienceService.updateSkillYears(id, freelancerId, years);

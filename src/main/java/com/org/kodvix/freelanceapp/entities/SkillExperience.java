@@ -32,6 +32,12 @@ public class SkillExperience implements Serializable {
 	@JoinColumn(name = "freelancer_id")
 	private Freelancer freelancer;
 
+	@ManyToOne(targetEntity = JobSeeker.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.DETACH })
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "jobseeker_id")
+	private JobSeeker jobSeeker;
+
 
 	public SkillExperience() {
 		super();
@@ -77,5 +83,11 @@ public class SkillExperience implements Serializable {
 		this.freelancer = freelancer;
 	}
 
+	public JobSeeker getJobSeeker() {
+		return jobSeeker;
+	}
 
+	public void setJobSeeker(JobSeeker jobSeeker) {
+		this.jobSeeker = jobSeeker;
+	}
 }

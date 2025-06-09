@@ -16,6 +16,9 @@ public class SkillExperienceDTO {
 	@NotNull(message = "Freelancer Id cannot be blank")
 	private Long freelancerId;
 
+	@NotNull(message = "JobSeeker Id cannot be blank")
+	private Long jobseekerId;
+
 
 
 	public SkillExperienceDTO() {
@@ -27,6 +30,13 @@ public class SkillExperienceDTO {
 		this.skillId = skillId;
 		this.freelancerId = freelancerId;
 
+	}
+
+	public SkillExperienceDTO(Integer years, Long skillId, Long freelancerId, Long jobseekerId) {
+		this.years = years;
+		this.skillId = skillId;
+		this.freelancerId = freelancerId;
+		this.jobseekerId = jobseekerId;
 	}
 
 	public @NotNull(message = "Experience cannot be empty") Integer getYears() {
@@ -53,5 +63,11 @@ public class SkillExperienceDTO {
 		this.freelancerId = freelancerId;
 	}
 
+	public @NotNull(message = "JobSeeker Id cannot be blank") Long getJobseekerId() {
+		return jobseekerId;
+	}
 
+	public void setJobseekerId(@NotNull(message = "JobSeeker Id cannot be blank") Long jobseekerId) {
+		this.jobseekerId = jobseekerId;
+	}
 }
