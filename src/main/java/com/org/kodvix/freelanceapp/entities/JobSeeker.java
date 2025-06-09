@@ -10,8 +10,7 @@ import java.util.List;
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class JobSeeker implements Serializable {
-
-
+    
     @Id
     @Column(name = "jobseeker_id", updatable = false)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "jobseeker_seq")
