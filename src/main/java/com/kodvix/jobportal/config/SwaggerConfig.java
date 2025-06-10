@@ -14,7 +14,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket productApi() {
-        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("com.org.kodvix"))
+        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("com.kodvix.jobportal"))
                 .paths(PathSelectors.any())
                 .build();
     }

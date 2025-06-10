@@ -12,9 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**************************************************************************************
- * Description : This is the Service Implementation for Skill module.
- *************************************************************************************/
 @Service
 @Transactional
 public class SkillServiceImpl implements ISkillService {

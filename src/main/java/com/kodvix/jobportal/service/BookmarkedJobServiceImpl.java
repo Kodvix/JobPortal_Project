@@ -32,7 +32,6 @@ public class BookmarkedJobServiceImpl implements IBookmarkedJobService {
     @Autowired
     ModelMapper model;
 
-
     /**
      * Method     : bookmarkedJob
      *
