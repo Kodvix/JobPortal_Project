@@ -11,10 +11,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.org.kodvix</groupId>
+	<groupId>com.kodvix.jobportal</groupId>
 	<artifactId>Online-Job-Portal</artifactId>
 	<version>1.0.0</version>
-	<packaging>jar</packaging> <!-- ✅ changed from war to jar -->
+	<packaging>jar</packaging> <!-- changed from war to jar -->
 
 	<name>OnlineJobPortal</name>
 	<description>Sprint 1 project on Online Job portal</description>
