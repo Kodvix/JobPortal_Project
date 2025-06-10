@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface IJobApplicationDao extends JpaRepository<JobApplication, Long> {
 
-	@Query("SELECT new com.org.kodvix.freelanceapp.dto.JobApplicationsListDTO(" +
+	@Query("SELECT new com.kodvix.jobportal.dto.JobApplicationsListDTO(" +
 			"ja.id, " +
 			"ja.job.id, " +
 			"ja.job.jobTitle, " +
@@ -31,7 +31,7 @@ public interface IJobApplicationDao extends JpaRepository<JobApplication, Long> 
 			"ORDER BY ja.id")
     List<JobApplicationsListDTO> findAllByJobId(@Param("jobId") Long jobId);
 
-	@Query("SELECT new com.org.kodvix.freelanceapp.dto.JobApplicationsListDTO( " +
+	@Query("SELECT new com.kodvix.jobportal.dto.JobApplicationsListDTO( " +
 			"j.id, " +
 			"j.job.id, " +
 			"j.job.jobTitle, " +
@@ -49,10 +49,10 @@ public interface IJobApplicationDao extends JpaRepository<JobApplication, Long> 
 
 
 
-    @Query("select new com.org.kodvix.freelanceapp.dto.JobApplicationsListDTO(j.id, j.job.id, j.job.jobTitle, j.coverLetter, f.id, CONCAT(f.firstName,' ', f.lastName), f.userName)  from JobApplication j, Freelancer f where f.id=:frId and j.job.id=:jobId")
+    @Query("select new com.kodvix.jobportal.dto.JobApplicationsListDTO(j.id, j.job.id, j.job.jobTitle, j.coverLetter, f.id, CONCAT(f.firstName,' ', f.lastName), f.userName)  from JobApplication j, Freelancer f where f.id=:frId and j.job.id=:jobId")
     List<JobApplicationsListDTO> findByFreelancerId(@Param("jobId") Long jobId, @Param("frId") Long frId);
 
-    @Query("select new com.org.kodvix.freelanceapp.dto.JobApplicationsListDTO(j.id, j.job.id, j.job.jobTitle, j.coverLetter, js.id, CONCAT(js.firstName, ' ', js.lastName), js.userName) " +
+    @Query("select new com.kodvix.jobportal.dto.JobApplicationsListDTO(j.id, j.job.id, j.job.jobTitle, j.coverLetter, js.id, CONCAT(js.firstName, ' ', js.lastName), js.userName) " +
             "from JobApplication j, JobSeeker js " +
             "where js.id = :jsId and j.job.id = :jobId and j.jobSeeker.id = js.id")
     List<JobApplicationsListDTO> findByJobSeekerId(@Param("jobId") Long jobId, @Param("jsId") Long jsId);

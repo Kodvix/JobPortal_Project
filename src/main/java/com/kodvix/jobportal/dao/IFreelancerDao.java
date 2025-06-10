@@ -20,6 +20,6 @@ public interface IFreelancerDao extends JpaRepository<Freelancer, Long> {
 
 	public boolean existsByUserName(String userName);
 	
-	@Query(value = "select new com.org.kodvix.freelanceapp.dto.FreelancerListDTO(f.id, f.userName, f.firstName, f.lastName, f.password) from Freelancer f where not f.firstName like 'dummy%' order by f.id")
+	@Query(value = "select new com.kodvix.jobportal.dto.FreelancerListDTO(f.id, f.userName, f.firstName, f.lastName, f.password) from Freelancer f where not f.firstName like 'dummy%' order by f.id")
 	public List<FreelancerListDTO> findAllFreelancers(); 
 }

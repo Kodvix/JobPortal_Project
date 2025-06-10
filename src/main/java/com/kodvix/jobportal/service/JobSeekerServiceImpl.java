@@ -1,14 +1,11 @@
 package com.kodvix.jobportal.service;
 
-
 import com.kodvix.jobportal.dao.IJobSeekerDao;
-
 import com.kodvix.jobportal.dto.JobSeekerDTO;
-
 import com.kodvix.jobportal.dto.JobSeekerListDTO;
 import com.kodvix.jobportal.entities.JobSeeker;
-
 import com.kodvix.jobportal.exceptions.InvalidJobSeekerException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,19 +18,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class JobSeekerServiceImpl  implements IJobSeekerService {
 
-
     @Autowired
     IJobSeekerDao jobSeekerDao;
 
+    @Autowired
+    ModelMapper model;
+
     @Value("${resume.upload.dir}")
     private String uploadDir;
-
-
 
     public String storeResume(Long jobseekerId, MultipartFile file) throws IOException {
         JobSeeker jobSeeker = jobSeekerDao.findById(jobseekerId)
@@ -55,9 +53,10 @@ public class JobSeekerServiceImpl  implements IJobSeekerService {
     }
 
     @Override
-    public JobSeeker findById(Long id) {
+    public JobSeekerDTO findById(Long id) {
         if (jobSeekerDao.existsById(id)) {
-            return jobSeekerDao.findById(id).get();
+            JobSeeker jobSeeker=   jobSeekerDao.findById(id).get();
+            return  convertToDto(jobSeeker);
         } else
             throw new InvalidJobSeekerException();
     }
@@ -86,6 +85,15 @@ public class JobSeekerServiceImpl  implements IJobSeekerService {
         return jobSeekerDao.findAllJobSeekers();
     }
 
+    private JobSeekerDTO convertToDto(JobSeeker jobSeeker){
+        return model.map(jobSeeker,JobSeekerDTO.class);
+    }
 
+    private JobSeeker convertToEntity(JobSeekerDTO jobSeekerDTO){
+        return model.map(jobSeekerDTO,JobSeeker.class);
+    }
 
+    private List<JobSeekerDTO> convertoDtoList(List<JobSeeker> jobSeekerList){
+        return jobSeekerList.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
 }

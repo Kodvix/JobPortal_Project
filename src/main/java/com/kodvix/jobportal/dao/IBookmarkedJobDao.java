@@ -31,6 +31,6 @@ public interface IBookmarkedJobDao extends JpaRepository<BookmarkedJob,Long>
 	@Query(value = "select bkd_job_seq.currval from dual", nativeQuery = true)
 	Long getCurrentSeriesId();
 	
-	@Query("select new com.org.kodvix.freelanceapp.dto.BookmarkedJobListDTO(bj.id, bj.skill.id, bj.skill.name, bj.freelancer.id, CONCAT(bj.freelancer.firstName,' ', bj.freelancer.lastName) as freelancerName, bj.job.id, bj.job.jobTitle) from BookmarkedJob bj where bj.freelancer.id = :frId order by bj.id")
+	@Query("select new com.kodvix.jobportal.dto.BookmarkedJobListDTO(bj.id, bj.skill.id, bj.skill.name, bj.freelancer.id, CONCAT(bj.freelancer.firstName,' ', bj.freelancer.lastName) as freelancerName, bj.job.id, bj.job.jobTitle) from BookmarkedJob bj where bj.freelancer.id = :frId order by bj.id")
 	List<BookmarkedJobListDTO> findAllBookmarks(@Param("frId") Long frId);
 }

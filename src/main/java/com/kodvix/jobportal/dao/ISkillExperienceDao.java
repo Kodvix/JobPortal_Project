@@ -15,7 +15,7 @@ public interface ISkillExperienceDao extends JpaRepository<SkillExperience, Long
 	Long getCurrentSeriesId();
 
 	// Existing Freelancer query
-	@Query("select new com.org.kodvix.freelanceapp.dto.SkillExperienceListDTO(se.id, se.skill.id, se.skill.name, se.years, f.id, CONCAT(f.firstName, ' ', f.lastName), f.userName) " +
+	@Query("select new com.kodvix.jobportal.dto.SkillExperienceListDTO(se.id, se.skill.id, se.skill.name, se.years, f.id, CONCAT(f.firstName, ' ', f.lastName), f.userName) " +
 			"from SkillExperience se, Freelancer f where f.id = :id and se.freelancer.id = :id order by se.id")
 	List<SkillExperienceListDTO> findByFreelancerId(@Param("id") Long freelancerId);
 

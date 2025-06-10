@@ -10,8 +10,6 @@ import java.util.List;
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class JobSeeker implements Serializable {
-
-
     @Id
     @Column(name = "jobseeker_id", updatable = false)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "jobseeker_seq")
@@ -26,6 +24,9 @@ public class JobSeeker implements Serializable {
     private String lastName;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private String resumePath;
+
 
     @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobApplication> appliedJobs;
@@ -54,17 +55,6 @@ public class JobSeeker implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        //      this.appliedJobs = appliedJobs;
-    }
-
-    public JobSeeker(Long id, String userName, String firstName, String lastName, String password, List<JobApplication> appliedJobs, List<SkillExperience> skills) {
-        this.id = id;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.appliedJobs = appliedJobs;
-        this.skills = skills;
     }
 
     public JobSeeker(Long id, String userName, String firstName, String lastName, String password, List<JobApplication> appliedJobs, List<SkillExperience> skills, String resumePath) {
@@ -143,7 +133,14 @@ public class JobSeeker implements Serializable {
     public void setSkills(List<SkillExperience> skills) {
         this.skills = skills;
     }
-}
 
+    public String getResumePath() {
+        return resumePath;
+    }
+
+    public void setResumePath(String resumePath) {
+        this.resumePath = resumePath;
+    }
+}
 
 

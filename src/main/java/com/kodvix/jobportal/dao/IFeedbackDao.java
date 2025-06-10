@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface IFeedbackDao extends JpaRepository<Feedback, Long> {
 	@Query("select new "
-			+ "com.org.kodvix.freelanceapp.dto.FeedbackListDTO(fb.id, "
+			+ "com.kodvix.jobportal.dto.FeedbackListDTO(fb.id, "
 			+ "fb.createdFor.id, "
 			+ "CONCAT(fb.createdFor.firstName, ' ', fb.createdFor.lastName) as freelancerName, "
 			+ "fb.createdFor.userName, "
