@@ -92,8 +92,7 @@ public class JobSeekerController {
     public JobSeekerDTO getById(@PathVariable Long id) {
         try {
             return jobSeekerService.findById(id);
-        }
-        catch(InvalidJobSeekerException exception){
+        } catch (InvalidJobSeekerException exception) {
             throw new InvalidFreelancerException("JobSeeker with given id not found.");
         }
     }

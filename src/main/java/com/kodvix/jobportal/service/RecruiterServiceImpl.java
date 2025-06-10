@@ -5,83 +5,85 @@ import com.kodvix.jobportal.dto.RecruiterDTO;
 import com.kodvix.jobportal.dto.RecruiterListDTO;
 import com.kodvix.jobportal.entities.Recruiter;
 import com.kodvix.jobportal.exceptions.InvalidRecruiterException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-/**************************************************************************************
- * @author       Aditya 
- * Description : This is the Service Implementation for Recruiter module. 
- * Created Date: 21 April, 2021 
- * Version     : v1.0.0
- *************************************************************************************/
 @Service
 @Transactional
 public class RecruiterServiceImpl implements IRecruiterService {
 
-	@Autowired
-	IRecruiterDao recruiterDao;
+    @Autowired
+    IRecruiterDao recruiterDao;
 
-	@Override
-	public Recruiter findById(Long id) {
-		if (recruiterDao.existsById(id)) {
-			return recruiterDao.findById(id).get();
-		} else
-			throw new InvalidRecruiterException();
-	}
+    @Autowired
+    ModelMapper modelMapper;
 
-	/*******************************************************************************************
-	 * Method:      getCurrentSeriesId
-	 * @param       none
-	 * @return      Long
-	 * Description: This method returns the current value of primary key from the sequence.
-	 *******************************************************************************************/
-	@Override
-	public Long getCurrentId() {
-		return recruiterDao.getCurrentSeriesId();
-	}
+    @Override
+    public RecruiterDTO findById(Long id) {
+        if (recruiterDao.existsById(id)) {
+            Recruiter recruiter = recruiterDao.findById(id).get();
+            return mapToDTO(recruiter);
+        } else {
+            throw new InvalidRecruiterException();
+        }
+    }
 
-	@Override
-	public Recruiter save(RecruiterDTO recruiterDto) {
-		System.out.println(recruiterDto);
-		Recruiter recruiter = new Recruiter();
-		recruiter.setFirstName(recruiterDto.getFirstName());
-		recruiter.setLastName(recruiterDto.getLastName());
-		recruiter.setUserName(recruiterDto.getUserName());
-		recruiter.setPassword(recruiterDto.getPassword());
-		if (!(recruiterDto.getFirstName() == null || recruiterDto.getLastName() == null
-				|| recruiterDto.getUserName() == null || recruiterDto.getPassword() == null))
-			return recruiterDao.save(recruiter);
-		else
-			throw new InvalidRecruiterException();
-	}
+    @Override
+    public Long getCurrentId() {
+        return recruiterDao.getCurrentSeriesId();
+    }
 
-	@Override
-	public Recruiter update(Long id, RecruiterDTO recruiterDto) {
-		if (recruiterDao.existsById(id)) {
-			Recruiter recruiter = recruiterDao.findById(id).get();
-			recruiter.setFirstName(recruiterDto.getFirstName());
-			recruiter.setLastName(recruiterDto.getLastName());
-			recruiter.setUserName(recruiterDto.getUserName());
-			recruiter.setPassword(recruiterDto.getPassword());
-			return recruiterDao.save(recruiter);
-		} else
-			throw new InvalidRecruiterException();
-	}
+    @Override
+    public Recruiter save(RecruiterDTO recruiterDto) {
+        if (recruiterDto.getFirstName() != null && recruiterDto.getLastName() != null
+                && recruiterDto.getUserName() != null && recruiterDto.getPassword() != null) {
+            Recruiter recruiter = mapToEntity(recruiterDto);
+            return recruiterDao.save(recruiter);
+        } else {
+            throw new InvalidRecruiterException();
+        }
+    }
 
-	@Override
-	public Recruiter findByUserName(String userName) {
-		if (recruiterDao.existsByUserName(userName)) {
-			return recruiterDao.findByUserName(userName);
-		} else {
-			throw new InvalidRecruiterException();
-		}
-	}
 
-	@Override
-	public List<RecruiterListDTO> findAll(){
-		return recruiterDao.findAllRecruiters();
-	}
+    @Override
+    public Recruiter update(Long id, RecruiterDTO recruiterDto) {
+        if (recruiterDao.existsById(id)) {
+            Recruiter recruiter = mapToEntity(recruiterDto);
+            recruiter.setId(id);
+            return recruiterDao.save(recruiter);
+        } else {
+            throw new InvalidRecruiterException();
+        }
+    }
+
+    private Recruiter mapToEntity(RecruiterDTO dto) {
+        return modelMapper.map(dto, Recruiter.class);
+    }
+
+    private RecruiterDTO mapToDTO(Recruiter entity) {
+        return modelMapper.map(entity, RecruiterDTO.class);
+    }
+
+    @Override
+    public Recruiter findByUserName(String userName) {
+        if (recruiterDao.existsByUserName(userName)) {
+            return recruiterDao.findByUserName(userName);
+        } else {
+            throw new InvalidRecruiterException();
+        }
+    }
+
+    @Override
+    public List<RecruiterListDTO> findAll() {
+        List<Recruiter> recruiters = recruiterDao.findAll();
+        return recruiters.stream()
+                .map(recruiter -> modelMapper.map(recruiter, RecruiterListDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }

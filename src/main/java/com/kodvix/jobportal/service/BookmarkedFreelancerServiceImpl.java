@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**************************************************************************************
- * @author       Vishnuvardhan 
+ * @author Vishnuvardhan
  * Description : This is the Service Implementation for BookmarkedFreelancer module.	 
  * Created Date: 21 April, 2021 
  * Version     : v1.0.0
@@ -26,88 +26,87 @@ import java.util.stream.Collectors;
 @Transactional
 public class BookmarkedFreelancerServiceImpl implements IBookmarkedFreelancerService {
 
-	@Autowired
-	IBookmarkedFreelancerDao bookmarkedFreelancerDao;
+    @Autowired
+    IBookmarkedFreelancerDao bookmarkedFreelancerDao;
 
-	@Autowired
-	ISkillDao skillDao;
+    @Autowired
+    ISkillDao skillDao;
 
-	@Autowired
-	IFreelancerDao freelancerDao;
+    @Autowired
+    IFreelancerDao freelancerDao;
 
-	@Autowired
-	IRecruiterDao recruiterDao;
+    @Autowired
+    IRecruiterDao recruiterDao;
 
-	@Autowired
-	private ModelMapper model;
+    @Autowired
+    private ModelMapper model;
 
-	@Override
-	public BookmarkedFreelancerDTO bookmarkFreelancer(BookmarkedFreelancerDTO bookmarkedFreelancerDto) {
+    @Override
+    public BookmarkedFreelancerDTO bookmarkFreelancer(BookmarkedFreelancerDTO bookmarkedFreelancerDto) {
 
-		BookmarkedFreelancer bookmarkedFreelancer = new BookmarkedFreelancer();
+        BookmarkedFreelancer bookmarkedFreelancer = new BookmarkedFreelancer();
 
-		if (recruiterDao.existsById(bookmarkedFreelancerDto.getRecruiterId())
-				&& freelancerDao.existsById(bookmarkedFreelancerDto.getFreelancerId())) {
+        if (recruiterDao.existsById(bookmarkedFreelancerDto.getRecruiterId())
+                && freelancerDao.existsById(bookmarkedFreelancerDto.getFreelancerId())) {
 
-			bookmarkedFreelancer.setBookmarkedBy(recruiterDao.findById(bookmarkedFreelancerDto.getRecruiterId()).get());
-			bookmarkedFreelancer.setFreelancer(freelancerDao.findById(bookmarkedFreelancerDto.getFreelancerId()).get());
+            bookmarkedFreelancer.setBookmarkedBy(recruiterDao.findById(bookmarkedFreelancerDto.getRecruiterId()).get());
+            bookmarkedFreelancer.setFreelancer(freelancerDao.findById(bookmarkedFreelancerDto.getFreelancerId()).get());
 
-			return convertToDto(bookmarkedFreelancerDao.save(bookmarkedFreelancer));
-		} else
-			throw new InvalidBookmarkedFreelancerException();
+            return convertToDto(bookmarkedFreelancerDao.save(bookmarkedFreelancer));
+        } else
+            throw new InvalidBookmarkedFreelancerException();
 
-	}
-
-
-	@Override
-	public void deleteBookmarkedFreelancerById(Long id) {
-		if (bookmarkedFreelancerDao.existsById(id)) {
-			bookmarkedFreelancerDao.deleteById(id);
-		} else {
-			throw new InvalidBookmarkedFreelancerException();
-		}
-
-	}
-
-	
-
-	@Override
-	public BookmarkedFreelancerDTO findById(Long id) {
-		if (bookmarkedFreelancerDao.existsById(id)) {
-			return convertToDto(bookmarkedFreelancerDao.findById(id).get());
-		} else
-			throw new InvalidBookmarkedFreelancerException();
-
-	}
+    }
 
 
-	@Override
-	public Long getCurrentId() {
-		return bookmarkedFreelancerDao.getCurrentSeriesId();
-	}
+    @Override
+    public void deleteBookmarkedFreelancerById(Long id) {
+        if (bookmarkedFreelancerDao.existsById(id)) {
+            bookmarkedFreelancerDao.deleteById(id);
+        } else {
+            throw new InvalidBookmarkedFreelancerException();
+        }
 
-	@Override
-	public BookmarkedFreelancerDTO save(BookmarkedFreelancerDTO bookmarkedFreelancerDto) {
-		BookmarkedFreelancer bookmarkedFreelancer = new BookmarkedFreelancer();
-		bookmarkedFreelancer.setBookmarkedBy(recruiterDao.findById(bookmarkedFreelancerDto.getRecruiterId()).get());
-		bookmarkedFreelancer.setFreelancer(freelancerDao.findById(bookmarkedFreelancerDto.getFreelancerId()).get());
-		return convertToDto(bookmarkedFreelancerDao.save(bookmarkedFreelancer));
-	}
+    }
 
-	@Override
-	public List<BookmarkedFreelancerListDTO> getAll() {
-		return bookmarkedFreelancerDao.findAllDTO();
-	}
 
-	private BookmarkedFreelancerDTO convertToDto(BookmarkedFreelancer bookFreelancer){
-		return model.map(bookFreelancer,BookmarkedFreelancerDTO.class);
-	}
+    @Override
+    public BookmarkedFreelancerDTO findById(Long id) {
+        if (bookmarkedFreelancerDao.existsById(id)) {
+            return convertToDto(bookmarkedFreelancerDao.findById(id).get());
+        } else
+            throw new InvalidBookmarkedFreelancerException();
 
-	private BookmarkedFreelancer convertToEntity(BookmarkedFreelancerListDTO bookFreelancer){
-		return model.map(bookFreelancer,BookmarkedFreelancer.class);
-	}
+    }
 
-	private List<BookmarkedFreelancerDTO> convertoDtoList(List<BookmarkedFreelancer> bookFreelancerList){
-		return bookFreelancerList.stream().map(this::convertToDto).collect(Collectors.toList());
-	}
+
+    @Override
+    public Long getCurrentId() {
+        return bookmarkedFreelancerDao.getCurrentSeriesId();
+    }
+
+    @Override
+    public BookmarkedFreelancerDTO save(BookmarkedFreelancerDTO bookmarkedFreelancerDto) {
+        BookmarkedFreelancer bookmarkedFreelancer = new BookmarkedFreelancer();
+        bookmarkedFreelancer.setBookmarkedBy(recruiterDao.findById(bookmarkedFreelancerDto.getRecruiterId()).get());
+        bookmarkedFreelancer.setFreelancer(freelancerDao.findById(bookmarkedFreelancerDto.getFreelancerId()).get());
+        return convertToDto(bookmarkedFreelancerDao.save(bookmarkedFreelancer));
+    }
+
+    @Override
+    public List<BookmarkedFreelancerListDTO> getAll() {
+        return bookmarkedFreelancerDao.findAllDTO();
+    }
+
+    private BookmarkedFreelancerDTO convertToDto(BookmarkedFreelancer bookFreelancer) {
+        return model.map(bookFreelancer, BookmarkedFreelancerDTO.class);
+    }
+
+    private BookmarkedFreelancer convertToEntity(BookmarkedFreelancerListDTO bookFreelancer) {
+        return model.map(bookFreelancer, BookmarkedFreelancer.class);
+    }
+
+    private List<BookmarkedFreelancerDTO> convertoDtoList(List<BookmarkedFreelancer> bookFreelancerList) {
+        return bookFreelancerList.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
 }

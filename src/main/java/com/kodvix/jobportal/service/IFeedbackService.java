@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public interface IFeedbackService {
 
-	Float averageRating(String id);
+    Float averageRating(String id);
 
-	FeedbackDTO addFeedback(FeedbackDTO feedbackDto);
+    FeedbackDTO addFeedback(FeedbackDTO feedbackDto);
 
-	List<FeedbackListDTO> findFeedbacksForFreelancerByRecruiter(String fId, String rId);
+    List<FeedbackListDTO> findFeedbacksForFreelancerByRecruiter(String fId, String rId);
 }

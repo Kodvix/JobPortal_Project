@@ -8,17 +8,17 @@ import java.util.List;
 @Service
 public interface IJobService {
 
-	void close(Long id);
+    void close(Long id);
 
-	JobDTO findById(Long id);
-	
-	List<Object> findJobsBySkillName(String name);
-	
-	List<Object> findAll();
-	
-	List<Object> findAllActiveJobs();
-	
-	JobDTO postJob(JobDTO jobDto);
-	
-	void awardJob(Long jobId, Long freelancerId);
+    JobDTO findById(Long id);
+
+    List<Object> findJobsBySkillName(String name);
+
+    List<Object> findAll();
+
+    List<Object> findAllActiveJobs();
+
+    JobDTO postJob(JobDTO jobDto);
+
+    void awardJob(Long jobId, Long freelancerId);
 }

@@ -21,63 +21,63 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class RecruiterController {
 
-	@Autowired
+    @Autowired
     IRecruiterService recruiterService;
 
-	@PostMapping("/add")
-	public ResponseEntity<Object> createRecruiter(@Valid @RequestBody RecruiterDTO recruiterDto,
-			BindingResult bindingResult) {
-		
-		if (bindingResult.hasErrors()) {
-			System.out.println("Some errors exist!");
-			List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+    @PostMapping("/add")
+    public ResponseEntity<Object> createRecruiter(@Valid @RequestBody RecruiterDTO recruiterDto,
+                                                  BindingResult bindingResult) {
 
-			List<String> errMessages = new ArrayList<>();
-			for (FieldError fe : fieldErrors) {
-				errMessages.add(fe.getDefaultMessage());
-			}
-			throw new JobPortalValidationException(errMessages);
-		}
-		try {
-			recruiterService.save(recruiterDto);
-		} catch (InvalidRecruiterException exception) {
-			throw new InvalidRecruiterException("One or more entered fields contain invalid objects.");
-		}
-		return new ResponseEntity<>("Added successfully", HttpStatus.CREATED);
-	}
+        if (bindingResult.hasErrors()) {
+            System.out.println("Some errors exist!");
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
-	@GetMapping("/get/id/{id}")
-	public Recruiter getById(@PathVariable Long id) {
-		try {
-			return recruiterService.findById(id);
-		} catch (InvalidRecruiterException exception) {
-			throw new InvalidRecruiterException("Recruiter with given id not found");
-		}
-	}
-	
-	@GetMapping("/get/name/{userName}")
-	public Recruiter getByUserName(@PathVariable String userName) {
-		try {
-			return recruiterService.findByUserName(userName);
-		} catch (InvalidRecruiterException exception) {
-			throw new InvalidRecruiterException("Recruiter with userName not found");
-		}
-	}
+            List<String> errMessages = new ArrayList<>();
+            for (FieldError fe : fieldErrors) {
+                errMessages.add(fe.getDefaultMessage());
+            }
+            throw new JobPortalValidationException(errMessages);
+        }
+        try {
+            recruiterService.save(recruiterDto);
+        } catch (InvalidRecruiterException exception) {
+            throw new InvalidRecruiterException("One or more entered fields contain invalid objects.");
+        }
+        return new ResponseEntity<>("Added successfully", HttpStatus.CREATED);
+    }
 
-	@PutMapping("/update/{id}")
-	public ResponseEntity<Object> updateRecruiter(@Valid @PathVariable Long id,
-			@RequestBody RecruiterDTO recruiterDto) {
-		try {
-			recruiterService.update(id, recruiterDto);
-		} catch (InvalidRecruiterException exception) {
-			throw new InvalidRecruiterException("Recruiter with given id not found");
-		}
-		return new ResponseEntity<>("Updated Recruiter Successfully", HttpStatus.OK);
-	}
-	
-	@GetMapping("/getAll")
-	public ResponseEntity<Object> findAll(){
-		return new ResponseEntity<>(recruiterService.findAll(), HttpStatus.OK);
-	}
+    @GetMapping("/get/id/{id}")
+    public RecruiterDTO getById(@PathVariable Long id) {
+        try {
+            return recruiterService.findById(id);
+        } catch (InvalidRecruiterException exception) {
+            throw new InvalidRecruiterException("Recruiter with given id not found");
+        }
+    }
+
+    @GetMapping("/get/name/{userName}")
+    public Recruiter getByUserName(@PathVariable String userName) {
+        try {
+            return recruiterService.findByUserName(userName);
+        } catch (InvalidRecruiterException exception) {
+            throw new InvalidRecruiterException("Recruiter with userName not found");
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Object> updateRecruiter(@Valid @PathVariable Long id,
+                                                  @RequestBody RecruiterDTO recruiterDto) {
+        try {
+            recruiterService.update(id, recruiterDto);
+        } catch (InvalidRecruiterException exception) {
+            throw new InvalidRecruiterException("Recruiter with given id not found");
+        }
+        return new ResponseEntity<>("Updated Recruiter Successfully", HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<Object> findAll() {
+        return new ResponseEntity<>(recruiterService.findAll(), HttpStatus.OK);
+    }
 
 }

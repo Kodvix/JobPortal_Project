@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface IAdminService {
-	AdminDTO findById(Long id);
+    AdminDTO findById(Long id);
 
-	AdminDTO save(AdminDTO adminDto);
+    AdminDTO save(AdminDTO adminDto);
 
-	AdminDTO update(Long id, AdminDTO adminDto);
-	
-	AdminDTO findByUserName(String userName);
+    AdminDTO update(Long id, AdminDTO adminDto);
+
+    AdminDTO findByUserName(String userName);
 
 }

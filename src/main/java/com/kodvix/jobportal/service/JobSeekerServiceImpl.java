@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class JobSeekerServiceImpl  implements IJobSeekerService {
+public class JobSeekerServiceImpl implements IJobSeekerService {
 
     @Autowired
     IJobSeekerDao jobSeekerDao;
@@ -55,8 +55,8 @@ public class JobSeekerServiceImpl  implements IJobSeekerService {
     @Override
     public JobSeekerDTO findById(Long id) {
         if (jobSeekerDao.existsById(id)) {
-            JobSeeker jobSeeker=   jobSeekerDao.findById(id).get();
-            return  convertToDto(jobSeeker);
+            JobSeeker jobSeeker = jobSeekerDao.findById(id).get();
+            return convertToDto(jobSeeker);
         } else
             throw new InvalidJobSeekerException();
     }
@@ -68,7 +68,7 @@ public class JobSeekerServiceImpl  implements IJobSeekerService {
 
     @Override
     public JobSeeker save(JobSeekerDTO jobSeekerDTO) {
-        JobSeeker jobSeeker=new JobSeeker();
+        JobSeeker jobSeeker = new JobSeeker();
         jobSeeker.setFirstName(jobSeekerDTO.getFirstName());
         jobSeeker.setLastName(jobSeekerDTO.getLastName());
         jobSeeker.setPassword(jobSeekerDTO.getPassword());
@@ -85,15 +85,15 @@ public class JobSeekerServiceImpl  implements IJobSeekerService {
         return jobSeekerDao.findAllJobSeekers();
     }
 
-    private JobSeekerDTO convertToDto(JobSeeker jobSeeker){
-        return model.map(jobSeeker,JobSeekerDTO.class);
+    private JobSeekerDTO convertToDto(JobSeeker jobSeeker) {
+        return model.map(jobSeeker, JobSeekerDTO.class);
     }
 
-    private JobSeeker convertToEntity(JobSeekerDTO jobSeekerDTO){
-        return model.map(jobSeekerDTO,JobSeeker.class);
+    private JobSeeker convertToEntity(JobSeekerDTO jobSeekerDTO) {
+        return model.map(jobSeekerDTO, JobSeeker.class);
     }
 
-    private List<JobSeekerDTO> convertoDtoList(List<JobSeeker> jobSeekerList){
+    private List<JobSeekerDTO> convertoDtoList(List<JobSeeker> jobSeekerList) {
         return jobSeekerList.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 }

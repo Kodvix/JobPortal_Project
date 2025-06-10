@@ -7,20 +7,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-
 @Service
 public interface IBookmarkedJobService {
 
-	BookmarkedJobDTO bookmarkJob(BookmarkedJobDTO bjd);
+    BookmarkedJobDTO bookmarkJob(BookmarkedJobDTO bjd);
 
-	List<BookmarkedJobDTO> findBookmarkedJobsBySkillName(String name);
+    List<BookmarkedJobDTO> findBookmarkedJobsBySkillName(String name);
 
-	BookmarkedJobDTO findById(Long id);
-	
-	List<BookmarkedJobListDTO> findAllBookmarks(Long frId);
+    BookmarkedJobDTO findById(Long id);
 
-	Long getCurrentId();
-	
-	void remove(Long BId);
+    List<BookmarkedJobListDTO> findAllBookmarks(Long frId);
+
+    Long getCurrentId();
+
+    void remove(Long BId);
 
 }

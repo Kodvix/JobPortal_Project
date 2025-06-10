@@ -21,53 +21,53 @@ import java.util.List;
 @RequestMapping("/skills")
 @CrossOrigin(origins = "*")
 public class SkillController {
-	@Autowired
+    @Autowired
     ISkillService skillservice;
 
-	@DeleteMapping(value = "/remove/{id}")
-	public ResponseEntity<Object> deleteSkill(@PathVariable Long id) {
-		try {
-			skillservice.remove(id);
-			return new ResponseEntity<>("Deleted Skill Successfully.", HttpStatus.OK);
-		} catch (InvalidSkillException e) {
-			throw new InvalidSkillException("Cannot find skill with given id.");
-		}
-	}
+    @DeleteMapping(value = "/remove/{id}")
+    public ResponseEntity<Object> deleteSkill(@PathVariable Long id) {
+        try {
+            skillservice.remove(id);
+            return new ResponseEntity<>("Deleted Skill Successfully.", HttpStatus.OK);
+        } catch (InvalidSkillException e) {
+            throw new InvalidSkillException("Cannot find skill with given id.");
+        }
+    }
 
-	@GetMapping(value = "/getAll")
-	public List<Skill> getAllSkills() {
-		return skillservice.getAllSkills();
-	}
+    @GetMapping(value = "/getAll")
+    public List<SkillDTO> getAllSkills() {
+        return skillservice.getAllSkills();
+    }
 
-	@PostMapping("/add")
-	public ResponseEntity<Object> saveSkill(@Valid @RequestBody SkillDTO skillDto, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			System.out.println("Some errors exist!");
-			List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+    @PostMapping("/add")
+    public ResponseEntity<Object> saveSkill(@Valid @RequestBody SkillDTO skillDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println("Some errors exist!");
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
-			List<String> errMessages = new ArrayList<>();
-			for (FieldError fe : fieldErrors) {
-				errMessages.add(fe.getDefaultMessage());
-			}
-			throw new JobPortalValidationException(errMessages);
-		}
-		try {
-			skillservice.save(skillDto);
-		} catch (DuplicateSkillException exception) {
-			throw new DuplicateSkillException("Skill already exists.");
-		} catch (InvalidSkillException exception) {
-			throw new InvalidSkillException("One or more entered fields is invalid.");
-		}
-		return new ResponseEntity<>("Skill Saved.", HttpStatus.OK);
-	}
+            List<String> errMessages = new ArrayList<>();
+            for (FieldError fe : fieldErrors) {
+                errMessages.add(fe.getDefaultMessage());
+            }
+            throw new JobPortalValidationException(errMessages);
+        }
+        try {
+            skillservice.save(skillDto);
+        } catch (DuplicateSkillException exception) {
+            throw new DuplicateSkillException("Skill already exists.");
+        } catch (InvalidSkillException exception) {
+            throw new InvalidSkillException("One or more entered fields is invalid.");
+        }
+        return new ResponseEntity<>("Skill Saved.", HttpStatus.OK);
+    }
 
-	@PutMapping("/update/{id}")
-	public ResponseEntity<Object> updateSkill(@PathVariable Long id, @RequestBody Skill skill) {
-		try {
-			skillservice.update(id, skill);
-			return new ResponseEntity<>("Updated records successfully", HttpStatus.OK);
-		} catch (InvalidSkillException e) {
-			throw new InvalidSkillException("Cannot find skill with given id");
-		}
-	}
+    @PutMapping("/update/{id}")
+    public ResponseEntity<SkillDTO> updateSkill(@PathVariable Long id, @RequestBody SkillDTO skillDto) {
+        try {
+            SkillDTO updatedSkill = skillservice.update(id, skillDto);
+            return new ResponseEntity<>(updatedSkill, HttpStatus.OK);
+        } catch (InvalidSkillException e) {
+            throw new InvalidSkillException("Cannot find skill with given id");
+        }
+    }
 }

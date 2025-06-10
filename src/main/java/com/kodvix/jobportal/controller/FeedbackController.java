@@ -13,30 +13,30 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class FeedbackController {
 
-	@Autowired
+    @Autowired
     IFeedbackService feedbackService;
 
-	@PostMapping("/add")
-	public ResponseEntity<Object> addFeedback(@RequestBody FeedbackDTO feedbackDto) {
-		feedbackService.addFeedback(feedbackDto);
-		return new ResponseEntity<>("Feedback Added Successfully", HttpStatus.OK);
-	}
+    @PostMapping("/add")
+    public ResponseEntity<Object> addFeedback(@RequestBody FeedbackDTO feedbackDto) {
+        feedbackService.addFeedback(feedbackDto);
+        return new ResponseEntity<>("Feedback Added Successfully", HttpStatus.OK);
+    }
 
-	@GetMapping("/get/freelancer/{freelancerUId}/recruiter/{recruiterId}")
-	public ResponseEntity<Object> getFeedbackForFreelancerByRecruiter(@PathVariable String freelancerUId, @PathVariable String recruiterId) {
-		try {
-			return new ResponseEntity<>(feedbackService.findFeedbacksForFreelancerByRecruiter(freelancerUId, recruiterId), HttpStatus.OK);
-		} catch (InvalidFeedbackException exception) {
-			throw new InvalidFeedbackException("Freelancer with given Id not found");
-		}
-	}
+    @GetMapping("/get/freelancer/{freelancerUId}/recruiter/{recruiterId}")
+    public ResponseEntity<Object> getFeedbackForFreelancerByRecruiter(@PathVariable String freelancerUId, @PathVariable String recruiterId) {
+        try {
+            return new ResponseEntity<>(feedbackService.findFeedbacksForFreelancerByRecruiter(freelancerUId, recruiterId), HttpStatus.OK);
+        } catch (InvalidFeedbackException exception) {
+            throw new InvalidFeedbackException("Freelancer with given Id not found");
+        }
+    }
 
-	@GetMapping("/get/avgRatingsFor/{id}")
-	public ResponseEntity<Object> getAverageRatings(@PathVariable String id) {
-		try {
-			return new ResponseEntity<>(feedbackService.averageRating(id), HttpStatus.OK);
-		} catch (InvalidFeedbackException exception) {
-			throw new InvalidFeedbackException("Freelancer with given Id not found");
-		}
-	}
+    @GetMapping("/get/avgRatingsFor/{id}")
+    public ResponseEntity<Object> getAverageRatings(@PathVariable String id) {
+        try {
+            return new ResponseEntity<>(feedbackService.averageRating(id), HttpStatus.OK);
+        } catch (InvalidFeedbackException exception) {
+            throw new InvalidFeedbackException("Freelancer with given Id not found");
+        }
+    }
 }

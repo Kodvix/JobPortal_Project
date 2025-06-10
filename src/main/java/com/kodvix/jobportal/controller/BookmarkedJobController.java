@@ -19,72 +19,68 @@ import java.util.List;
 @RequestMapping("/bmark/job")
 @CrossOrigin(origins = "*")
 public class BookmarkedJobController {
-	@Autowired
+    @Autowired
     IBookmarkedJobService bookmarkedJobService;
 
+    @PostMapping("/add")
+    public ResponseEntity<Object> createBookmark(@Valid @RequestBody BookmarkedJobDTO bookmarkedjobdto,
+                                                 BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println("Some errors exist!");
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
-	@PostMapping("/add")
-	public ResponseEntity<Object> createBookmark(@Valid @RequestBody BookmarkedJobDTO bookmarkedjobdto,
-			BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			System.out.println("Some errors exist!");
-			List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+            List<String> errMessages = new ArrayList<>();
+            for (FieldError fe : fieldErrors) {
+                errMessages.add(fe.getDefaultMessage());
+            }
+            throw new JobPortalValidationException(errMessages);
+        }
+        try {
+            bookmarkedJobService.bookmarkJob(bookmarkedjobdto);
+        } catch (InvalidBookmarkedJobException exception) {
+            throw new InvalidBookmarkedJobException("One or more entered fields contain invalid objects.");
+        }
+        return new ResponseEntity<>("Added successfully", HttpStatus.OK);
 
-			List<String> errMessages = new ArrayList<>();
-			for (FieldError fe : fieldErrors) {
-				errMessages.add(fe.getDefaultMessage());
-			}
-			throw new JobPortalValidationException(errMessages);
-		}
-		try {
-			bookmarkedJobService.bookmarkJob(bookmarkedjobdto);
-		} catch (InvalidBookmarkedJobException exception) {
-			throw new InvalidBookmarkedJobException("One or more entered fields contain invalid objects.");
-		}
-		return new ResponseEntity<>("Added successfully", HttpStatus.OK);
-
-	}
-
+    }
 
 
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Object> deleteById(@PathVariable Long id) {
-		try {
-			bookmarkedJobService.remove(id);
-		} catch (InvalidBookmarkedJobException exception) {
-			throw new InvalidBookmarkedJobException("No bookmark with specified id exists.");
-		}
-		return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
-	}
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> deleteById(@PathVariable Long id) {
+        try {
+            bookmarkedJobService.remove(id);
+        } catch (InvalidBookmarkedJobException exception) {
+            throw new InvalidBookmarkedJobException("No bookmark with specified id exists.");
+        }
+        return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
+    }
 
 
-
-	@GetMapping("/get/id/{id}")
-	public ResponseEntity<Object> getById(@Valid @PathVariable Long id) {
-		try {
-			BookmarkedJobDTO bookmarkedJobDTO = bookmarkedJobService.findById(id);
-			return new ResponseEntity<>(bookmarkedJobDTO, HttpStatus.OK);
-		} catch (InvalidBookmarkedJobException exception) {
-			throw new InvalidBookmarkedJobException("No Bookmark with specified id.");
-		}
-	}
-
+    @GetMapping("/get/id/{id}")
+    public ResponseEntity<Object> getById(@Valid @PathVariable Long id) {
+        try {
+            BookmarkedJobDTO bookmarkedJobDTO = bookmarkedJobService.findById(id);
+            return new ResponseEntity<>(bookmarkedJobDTO, HttpStatus.OK);
+        } catch (InvalidBookmarkedJobException exception) {
+            throw new InvalidBookmarkedJobException("No Bookmark with specified id.");
+        }
+    }
 
 
-	@GetMapping("/get/skill/{skillName}")
-	public List<BookmarkedJobDTO> listJobsBySkill(@Valid @PathVariable String skillName) {
-		try {
-			List<BookmarkedJobDTO> bookmarkedJobDTOS = bookmarkedJobService.findBookmarkedJobsBySkillName(skillName);
-			return bookmarkedJobDTOS;
-		} catch (InvalidBookmarkedJobException exception) {
-			throw new InvalidBookmarkedJobException("No bookmarks found for the specified skill name");
-		}
-	}
+    @GetMapping("/get/skill/{skillName}")
+    public List<BookmarkedJobDTO> listJobsBySkill(@Valid @PathVariable String skillName) {
+        try {
+            List<BookmarkedJobDTO> bookmarkedJobDTOS = bookmarkedJobService.findBookmarkedJobsBySkillName(skillName);
+            return bookmarkedJobDTOS;
+        } catch (InvalidBookmarkedJobException exception) {
+            throw new InvalidBookmarkedJobException("No bookmarks found for the specified skill name");
+        }
+    }
 
-	@GetMapping("findAll/{frId}")
-	public ResponseEntity<Object> findAll(@PathVariable Long frId) {
-		System.out.println(frId);
-		return new ResponseEntity<>(bookmarkedJobService.findAllBookmarks(frId), HttpStatus.OK);
-	}
+    @GetMapping("findAll/{frId}")
+    public ResponseEntity<Object> findAll(@PathVariable Long frId) {
+        System.out.println(frId);
+        return new ResponseEntity<>(bookmarkedJobService.findAllBookmarks(frId), HttpStatus.OK);
+    }
 
 }

@@ -1,4 +1,5 @@
 package com.kodvix.jobportal.service;
+
 import com.kodvix.jobportal.dao.IAdminDao;
 import com.kodvix.jobportal.dto.AdminDTO;
 import com.kodvix.jobportal.entities.Admin;

@@ -17,7 +17,7 @@ public class JobSeeker implements Serializable {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String  userName;
+    private String userName;
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
@@ -32,15 +32,15 @@ public class JobSeeker implements Serializable {
     private List<JobApplication> appliedJobs;
 
 
-    @OneToMany(mappedBy = "jobSeeker", targetEntity = SkillExperience.class, cascade = { CascadeType.PERSIST,
-            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+    @OneToMany(mappedBy = "jobSeeker", targetEntity = SkillExperience.class, cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<SkillExperience> skills;
 
 
     public JobSeeker() {
     }
 
-    public JobSeeker(Long id, String userName, String firstName, String lastName, String password,List<JobApplication> appliedJobs) {
+    public JobSeeker(Long id, String userName, String firstName, String lastName, String password, List<JobApplication> appliedJobs) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;

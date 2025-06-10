@@ -12,41 +12,40 @@ import java.util.List;
 @Repository
 public interface IJobApplicationDao extends JpaRepository<JobApplication, Long> {
 
-	@Query("SELECT new com.kodvix.jobportal.dto.JobApplicationsListDTO(" +
-			"ja.id, " +
-			"ja.job.id, " +
-			"ja.job.jobTitle, " +
-			"ja.coverLetter, " +
-			"ja.freelancer.id, " +
-			"CONCAT(ja.freelancer.firstName, ' ', ja.freelancer.lastName), " +
-			"ja.freelancer.userName, " +
-			"ja.jobSeeker.id, " +
-			"CONCAT(ja.jobSeeker.firstName, ' ', ja.jobSeeker.lastName), " +
-			"ja.jobSeeker.userName, " +
-			"ja.appliedDate) " +
-			"FROM JobApplication ja " +
-			"LEFT JOIN ja.job " +
-			"LEFT JOIN ja.freelancer " +
-			"LEFT JOIN ja.jobSeeker " +
-			"ORDER BY ja.id")
+    @Query("SELECT new com.kodvix.jobportal.dto.JobApplicationsListDTO(" +
+            "ja.id, " +
+            "ja.job.id, " +
+            "ja.job.jobTitle, " +
+            "ja.coverLetter, " +
+            "ja.freelancer.id, " +
+            "CONCAT(ja.freelancer.firstName, ' ', ja.freelancer.lastName), " +
+            "ja.freelancer.userName, " +
+            "ja.jobSeeker.id, " +
+            "CONCAT(ja.jobSeeker.firstName, ' ', ja.jobSeeker.lastName), " +
+            "ja.jobSeeker.userName, " +
+            "ja.appliedDate) " +
+            "FROM JobApplication ja " +
+            "LEFT JOIN ja.job " +
+            "LEFT JOIN ja.freelancer " +
+            "LEFT JOIN ja.jobSeeker " +
+            "ORDER BY ja.id")
     List<JobApplicationsListDTO> findAllByJobId(@Param("jobId") Long jobId);
 
-	@Query("SELECT new com.kodvix.jobportal.dto.JobApplicationsListDTO( " +
-			"j.id, " +
-			"j.job.id, " +
-			"j.job.jobTitle, " +
-			"j.coverLetter, " +
-			"f.id, " +
-			"CONCAT(f.firstName, ' ', f.lastName), " +
-			"f.userName, " +
-			"js.id, " +
-			"CONCAT(js.firstName, ' ', js.lastName), " +
-			"js.userName) " +
-			"FROM JobApplication j " +
-			"JOIN j.freelancer f " +
-			"JOIN j.jobSeeker js")
-	List<JobApplicationsListDTO> findAllApps();
-
+    @Query("SELECT new com.kodvix.jobportal.dto.JobApplicationsListDTO( " +
+            "j.id, " +
+            "j.job.id, " +
+            "j.job.jobTitle, " +
+            "j.coverLetter, " +
+            "f.id, " +
+            "CONCAT(f.firstName, ' ', f.lastName), " +
+            "f.userName, " +
+            "js.id, " +
+            "CONCAT(js.firstName, ' ', js.lastName), " +
+            "js.userName) " +
+            "FROM JobApplication j " +
+            "JOIN j.freelancer f " +
+            "JOIN j.jobSeeker js")
+    List<JobApplicationsListDTO> findAllApps();
 
 
     @Query("select new com.kodvix.jobportal.dto.JobApplicationsListDTO(j.id, j.job.id, j.job.jobTitle, j.coverLetter, f.id, CONCAT(f.firstName,' ', f.lastName), f.userName)  from JobApplication j, Freelancer f where f.id=:frId and j.job.id=:jobId")

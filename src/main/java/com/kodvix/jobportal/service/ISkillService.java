@@ -6,29 +6,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**************************************************************************************
- * @author       Amruth N 
- * Description : This is the Service Interface for SkillService module. 
- * Created Date: 21 April, 2021 
- * Version     : v1.0.0
- *************************************************************************************/
 @Service
 public interface ISkillService {
 
-	Skill findById(Long id);
+    SkillDTO findById(Long id);
 
-	List<Skill> getAllSkills();
+    List<SkillDTO> getAllSkills();
 
-	Long getCurrentId();
+    SkillDTO getCurrentId(Long id);
 
-	Skill getSkill(Long id);
+    Skill getSkill(Long id);
 
-	String remove(Long id);
+    String remove(Long id);
 
-	Skill save(Skill skill);
+    Skill save(Skill skill);
 
-	Skill save(SkillDTO skillDto);
+    SkillDTO save(SkillDTO skillDto);
 
-	Skill update(Long id, Skill skill);
+    SkillDTO update(Long id, SkillDTO skillDto);
 
 }

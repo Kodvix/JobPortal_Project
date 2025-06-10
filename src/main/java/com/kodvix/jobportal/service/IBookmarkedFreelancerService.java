@@ -9,16 +9,16 @@ import java.util.List;
 @Service
 public interface IBookmarkedFreelancerService {
 
-	BookmarkedFreelancerDTO bookmarkFreelancer(BookmarkedFreelancerDTO bookmarkedFreelancerDto);
+    BookmarkedFreelancerDTO bookmarkFreelancer(BookmarkedFreelancerDTO bookmarkedFreelancerDto);
 
-	void deleteBookmarkedFreelancerById(Long id);
+    void deleteBookmarkedFreelancerById(Long id);
 
-	BookmarkedFreelancerDTO findById(Long id);
-	
-	List<BookmarkedFreelancerListDTO> getAll();
+    BookmarkedFreelancerDTO findById(Long id);
 
-	Long getCurrentId();
+    List<BookmarkedFreelancerListDTO> getAll();
 
-	BookmarkedFreelancerDTO save(BookmarkedFreelancerDTO bookmarkedFreelancerDto);
+    Long getCurrentId();
+
+    BookmarkedFreelancerDTO save(BookmarkedFreelancerDTO bookmarkedFreelancerDto);
 
 }
