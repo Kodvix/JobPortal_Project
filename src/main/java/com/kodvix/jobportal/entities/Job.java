@@ -12,7 +12,7 @@ import java.time.ZoneId;
 import java.util.List;
 
 /**************************************************************************************
- * @author       Vishnuvardhan 
+ * @author Vishnuvardhan
  * Description : This is the Entity class for Job module. 
  * Created Date: 18 April, 2021 
  * Version     : v1.0.0
@@ -21,129 +21,129 @@ import java.util.List;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Job implements Serializable {
 
-	private static final long serialVersionUID = -7946011744287965252L;
+    private static final long serialVersionUID = -7946011744287965252L;
 
-	@Id
-	@Column(name = "job_id", updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "job_seq")
-	@SequenceGenerator(name = "job_seq", sequenceName = "job_seq", allocationSize = 1)
-	private Long id;
+    @Id
+    @Column(name = "job_id", updatable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "job_seq")
+    @SequenceGenerator(name = "job_seq", sequenceName = "job_seq", allocationSize = 1)
+    private Long id;
 
-	private String jobTitle;
+    private String jobTitle;
 
-	private String jobDescription;
+    private String jobDescription;
 
-	@OneToOne(targetEntity = Skill.class, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Skill skill;
+    @OneToOne(targetEntity = Skill.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Skill skill;
 
-	@ManyToOne(targetEntity = Recruiter.class, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JoinColumn(name = "recruiter_id")
-	private Recruiter postedBy;
+    @ManyToOne(targetEntity = Recruiter.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "recruiter_id")
+    private Recruiter postedBy;
 
-	private LocalDate postedDate = LocalDate.now(ZoneId.of("GMT+05:30"));
+    private LocalDate postedDate = LocalDate.now(ZoneId.of("GMT+05:30"));
 
-	@OneToOne(targetEntity = Freelancer.class, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Freelancer awardedTo;
+    @OneToOne(targetEntity = Freelancer.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Freelancer awardedTo;
 
-	@OneToMany(mappedBy = "job", targetEntity = JobApplication.class, cascade = { CascadeType.MERGE,
-			CascadeType.REFRESH })
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private List<JobApplication> jobApplications;
+    @OneToMany(mappedBy = "job", targetEntity = JobApplication.class, cascade = {CascadeType.MERGE,
+            CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<JobApplication> jobApplications;
 
-	private Boolean active;
+    private Boolean active;
 
-	public Job() {
-		super();
-	}
+    public Job() {
+        super();
+    }
 
-	public Job(Long id, String jobTitle, String jobDescription, Skill skill, Recruiter postedBy, LocalDate postedDate,
-			Freelancer awardedTo, List<JobApplication> jobApplications, Boolean active) {
-		super();
-		this.id = id;
-		this.jobTitle = jobTitle;
-		this.jobDescription = jobDescription;
-		this.skill = skill;
-		this.postedBy = postedBy;
-		this.postedDate = postedDate;
-		this.awardedTo = awardedTo;
-		this.jobApplications = jobApplications;
-		this.active = active;
-	}
+    public Job(Long id, String jobTitle, String jobDescription, Skill skill, Recruiter postedBy, LocalDate postedDate,
+               Freelancer awardedTo, List<JobApplication> jobApplications, Boolean active) {
+        super();
+        this.id = id;
+        this.jobTitle = jobTitle;
+        this.jobDescription = jobDescription;
+        this.skill = skill;
+        this.postedBy = postedBy;
+        this.postedDate = postedDate;
+        this.awardedTo = awardedTo;
+        this.jobApplications = jobApplications;
+        this.active = active;
+    }
 
-	public Boolean getActive() {
-		return active;
-	}
+    public Boolean getActive() {
+        return active;
+    }
 
-	public Freelancer getAwardedTo() {
-		return awardedTo;
-	}
+    public Freelancer getAwardedTo() {
+        return awardedTo;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public List<JobApplication> getJobApplications() {
-		return jobApplications;
-	}
+    public List<JobApplication> getJobApplications() {
+        return jobApplications;
+    }
 
-	public String getJobDescription() {
-		return jobDescription;
-	}
+    public String getJobDescription() {
+        return jobDescription;
+    }
 
-	public String getJobTitle() {
-		return jobTitle;
-	}
+    public String getJobTitle() {
+        return jobTitle;
+    }
 
-	public Recruiter getPostedBy() {
-		return postedBy;
-	}
+    public Recruiter getPostedBy() {
+        return postedBy;
+    }
 
-	public LocalDate getPostedDate() {
-		return postedDate;
-	}
+    public LocalDate getPostedDate() {
+        return postedDate;
+    }
 
-	public Skill getSkill() {
-		return skill;
-	}
+    public Skill getSkill() {
+        return skill;
+    }
 
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
-	public void setAwardedTo(Freelancer awardedTo) {
-		this.awardedTo = awardedTo;
-	}
+    public void setAwardedTo(Freelancer awardedTo) {
+        this.awardedTo = awardedTo;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setJobApplications(List<JobApplication> jobApplications) {
-		this.jobApplications = jobApplications;
-	}
+    public void setJobApplications(List<JobApplication> jobApplications) {
+        this.jobApplications = jobApplications;
+    }
 
-	public void setJobDescription(String jobDescription) {
-		this.jobDescription = jobDescription;
-	}
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
+    }
 
-	public void setJobTitle(String jobTitle) {
-		this.jobTitle = jobTitle;
-	}
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
 
-	public void setPostedBy(Recruiter postedBy) {
-		this.postedBy = postedBy;
-	}
+    public void setPostedBy(Recruiter postedBy) {
+        this.postedBy = postedBy;
+    }
 
-	public void setPostedDate(LocalDate postedDate) {
-		this.postedDate = postedDate;
-	}
+    public void setPostedDate(LocalDate postedDate) {
+        this.postedDate = postedDate;
+    }
 
-	public void setSkill(Skill skill) {
-		this.skill = skill;
-	}
-	
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
+
 
 }

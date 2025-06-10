@@ -10,8 +10,6 @@ import java.util.List;
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class JobSeeker implements Serializable {
-
-
     @Id
     @Column(name = "jobseeker_id", updatable = false)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "jobseeker_seq")
@@ -19,27 +17,30 @@ public class JobSeeker implements Serializable {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String  userName;
+    private String userName;
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
     private String lastName;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private String resumePath;
+
 
     @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobApplication> appliedJobs;
 
 
-    @OneToMany(mappedBy = "jobSeeker", targetEntity = SkillExperience.class, cascade = { CascadeType.PERSIST,
-            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+    @OneToMany(mappedBy = "jobSeeker", targetEntity = SkillExperience.class, cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<SkillExperience> skills;
 
 
     public JobSeeker() {
     }
 
-    public JobSeeker(Long id, String userName, String firstName, String lastName, String password,List<JobApplication> appliedJobs) {
+    public JobSeeker(Long id, String userName, String firstName, String lastName, String password, List<JobApplication> appliedJobs) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;
@@ -54,17 +55,6 @@ public class JobSeeker implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        //      this.appliedJobs = appliedJobs;
-    }
-
-    public JobSeeker(Long id, String userName, String firstName, String lastName, String password, List<JobApplication> appliedJobs, List<SkillExperience> skills) {
-        this.id = id;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.appliedJobs = appliedJobs;
-        this.skills = skills;
     }
 
     public JobSeeker(Long id, String userName, String firstName, String lastName, String password, List<JobApplication> appliedJobs, List<SkillExperience> skills, String resumePath) {
@@ -143,7 +133,14 @@ public class JobSeeker implements Serializable {
     public void setSkills(List<SkillExperience> skills) {
         this.skills = skills;
     }
-}
 
+    public String getResumePath() {
+        return resumePath;
+    }
+
+    public void setResumePath(String resumePath) {
+        this.resumePath = resumePath;
+    }
+}
 
 

@@ -6,13 +6,13 @@ import com.kodvix.jobportal.entities.JobSeeker;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
 @Service
 public interface IJobSeekerService {
-
-    JobSeeker findById(Long id);
+    JobSeekerDTO findById(Long id);
 
     //Long getCurrentId();
 
@@ -25,6 +25,4 @@ public interface IJobSeekerService {
     List<JobSeekerListDTO> listJobSeekers();
 
     String storeResume(Long jobseekerId, MultipartFile file) throws IOException;
-
-
 }

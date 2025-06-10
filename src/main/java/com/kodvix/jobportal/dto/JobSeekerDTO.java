@@ -12,6 +12,8 @@ public class JobSeekerDTO {
     private String lastName;
     @NotEmpty(message = "password cannot be empty")
     private String password;
+    @NotEmpty(message = "resumePath cannot be empty")
+    private String resumePath;
 
     public JobSeekerDTO() {
     }
@@ -53,5 +55,13 @@ public class JobSeekerDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getResumePath() {
+        return resumePath;
+    }
+
+    public void setResumePath(String resumePath) {
+        this.resumePath = resumePath;
     }
 }

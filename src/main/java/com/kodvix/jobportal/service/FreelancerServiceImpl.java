@@ -18,73 +18,73 @@ import java.util.stream.Collectors;
 @Transactional
 public class FreelancerServiceImpl implements IFreelancerService {
 
-	@Autowired
-	IFreelancerDao freelancerDao;
+    @Autowired
+    IFreelancerDao freelancerDao;
 
-	@Autowired
-	ModelMapper model;
+    @Autowired
+    ModelMapper model;
 
-	@Override
-	public FreelancerDTO findById(Long id) {
-		if (freelancerDao.existsById(id)) {
-			return convertToDto(freelancerDao.findById(id).get());
-		} else
-			throw new InvalidFreelancerException();
-	}
-
-
-	@Override
-	public Long getCurrentId() {
-		return freelancerDao.getCurrentSeriesId();
-	}
-
-	@Override
-	public FreelancerDTO save(FreelancerDTO freelancerDto) {
-		Freelancer freelancer = convertToEntity(freelancerDto);
-		if (!(freelancerDto.getFirstName() == null || freelancerDto.getLastName() == null
-				|| freelancerDto.getPassword() == null || freelancerDto.getUserName() == null))
-			return convertToDto(freelancerDao.save(freelancer));
-		else
-			throw new InvalidFreelancerException();
-	}
-
-	@Override
-	public FreelancerDTO update(Long id, FreelancerDTO freelancerDto) {
-		if (freelancerDao.existsById(id)) {
-			Freelancer freelancer = freelancerDao.findById(id).get();
-			model.map(freelancerDto,freelancer);
-			return convertToDto(freelancerDao.save(freelancer));
-		} else {
-			throw new InvalidFreelancerException();
-		}
-
-	}
-
-	@Override
-	public FreelancerDTO findByUserName(String userName) {
-		if (freelancerDao.existsByUserName(userName)) {
-			return convertToDto(freelancerDao.findByUserName(userName));
-		} else {
-			throw new InvalidFreelancerException();
-		}
-	}
-
-	@Override
-	public List<FreelancerListDTO> listFreelancers() {
-		return freelancerDao.findAllFreelancers();
-	}
+    @Override
+    public FreelancerDTO findById(Long id) {
+        if (freelancerDao.existsById(id)) {
+            return convertToDto(freelancerDao.findById(id).get());
+        } else
+            throw new InvalidFreelancerException();
+    }
 
 
-	private FreelancerDTO convertToDto(Freelancer freelancer){
-		return model.map(freelancer,FreelancerDTO.class);
-	}
+    @Override
+    public Long getCurrentId() {
+        return freelancerDao.getCurrentSeriesId();
+    }
 
-	private Freelancer convertToEntity(FreelancerDTO freelancerDTO){
-		return model.map(freelancerDTO,Freelancer.class);
-	}
+    @Override
+    public FreelancerDTO save(FreelancerDTO freelancerDto) {
+        Freelancer freelancer = convertToEntity(freelancerDto);
+        if (!(freelancerDto.getFirstName() == null || freelancerDto.getLastName() == null
+                || freelancerDto.getPassword() == null || freelancerDto.getUserName() == null))
+            return convertToDto(freelancerDao.save(freelancer));
+        else
+            throw new InvalidFreelancerException();
+    }
 
-	private List<FreelancerDTO> convertoDtoList(List<Freelancer> freelancerList){
-		return freelancerList.stream().map(this::convertToDto).collect(Collectors.toList());
-	}
+    @Override
+    public FreelancerDTO update(Long id, FreelancerDTO freelancerDto) {
+        if (freelancerDao.existsById(id)) {
+            Freelancer freelancer = freelancerDao.findById(id).get();
+            model.map(freelancerDto, freelancer);
+            return convertToDto(freelancerDao.save(freelancer));
+        } else {
+            throw new InvalidFreelancerException();
+        }
+
+    }
+
+    @Override
+    public FreelancerDTO findByUserName(String userName) {
+        if (freelancerDao.existsByUserName(userName)) {
+            return convertToDto(freelancerDao.findByUserName(userName));
+        } else {
+            throw new InvalidFreelancerException();
+        }
+    }
+
+    @Override
+    public List<FreelancerListDTO> listFreelancers() {
+        return freelancerDao.findAllFreelancers();
+    }
+
+
+    private FreelancerDTO convertToDto(Freelancer freelancer) {
+        return model.map(freelancer, FreelancerDTO.class);
+    }
+
+    private Freelancer convertToEntity(FreelancerDTO freelancerDTO) {
+        return model.map(freelancerDTO, Freelancer.class);
+    }
+
+    private List<FreelancerDTO> convertoDtoList(List<Freelancer> freelancerList) {
+        return freelancerList.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
 
 }

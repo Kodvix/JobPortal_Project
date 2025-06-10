@@ -1,0 +1,13 @@
+com\kodvix\jobportal\entities\Freelancer.class
+com\kodvix\jobportal\entities\BookmarkedFreelancer.class
+com\kodvix\jobportal\dao\ISkillDao.class
+com\kodvix\jobportal\dto\JobApplicationsListDTO.class
+com\kodvix\jobportal\dto\JobSeekerListDTO.class
+com\kodvix\jobportal\entities\JobApplication.class
+com\kodvix\jobportal\entities\SkillExperience.class
+com\kodvix\jobportal\entities\Feedback.class
+com\kodvix\jobportal\entities\Job.class
+com\kodvix\jobportal\entities\Recruiter.class
+com\kodvix\jobportal\entities\BookmarkedJob.class
+com\kodvix\jobportal\entities\Skill.class
+com\kodvix\jobportal\entities\JobSeeker.class

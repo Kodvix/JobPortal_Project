@@ -1,6 +1,5 @@
 package com.kodvix.jobportal.controller;
 
-
 import com.kodvix.jobportal.dao.IJobSeekerDao;
 import com.kodvix.jobportal.dto.JobSeekerDTO;
 import com.kodvix.jobportal.entities.JobSeeker;
@@ -90,13 +89,11 @@ public class JobSeekerController {
     }
 
     @GetMapping("/get/id/{id}")
-    public JobSeeker getById(@PathVariable Long id) {
+    public JobSeekerDTO getById(@PathVariable Long id) {
         try {
             return jobSeekerService.findById(id);
-        }
-        catch(InvalidJobSeekerException exception){
+        } catch (InvalidJobSeekerException exception) {
             throw new InvalidFreelancerException("JobSeeker with given id not found.");
         }
     }
-
 }

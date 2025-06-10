@@ -1,7 +1,7 @@
 package com.kodvix.jobportal.exceptions;
 
 /**************************************************************************************
- * @author       Vishnuvardhan
+ * @author Vishnuvardhan
  * Description : Invalid JobSeeker Exception class
  * Created Date: 22 April, 2021
  * Version     : v1.0.0

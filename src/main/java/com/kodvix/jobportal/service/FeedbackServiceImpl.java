@@ -19,60 +19,59 @@ import java.util.stream.Collectors;
 @Service
 public class FeedbackServiceImpl implements IFeedbackService {
 
-	@Autowired
-	IFeedbackDao feedbackDao;
+    @Autowired
+    IFeedbackDao feedbackDao;
 
-	@Autowired
-	IRecruiterDao recruiterDao;
+    @Autowired
+    IRecruiterDao recruiterDao;
 
-	@Autowired
-	IFreelancerDao freelancerDao;
+    @Autowired
+    IFreelancerDao freelancerDao;
 
-	@Autowired
-	ModelMapper model;
+    @Autowired
+    ModelMapper model;
 
-	@Override
-	public Float averageRating(String id) {
-		if (freelancerDao.existsByUserName(id)) {
-			return feedbackDao.averageRatings(id);
-		}else throw new InvalidFeedbackException();
-	}
+    @Override
+    public Float averageRating(String id) {
+        if (freelancerDao.existsByUserName(id)) {
+            return feedbackDao.averageRatings(id);
+        } else throw new InvalidFeedbackException();
+    }
 
-	@Override
-	public FeedbackDTO addFeedback(FeedbackDTO feedbackDto) {
-		System.out.println(feedbackDto.toString());
-		if (recruiterDao.existsByUserName(feedbackDto.getRecruiterUName())
-				&& freelancerDao.existsByUserName(feedbackDto.getFreelancerUName())) {
-			
-			Recruiter recruiter = recruiterDao.findByUserName(feedbackDto.getRecruiterUName());
-			Freelancer freelancer = freelancerDao.findByUserName(feedbackDto.getFreelancerUName());
-			Feedback feedback = convertToEntity(feedbackDto);
-			feedback.setCreatedBy(recruiter);
-			feedback.setCreatedFor(freelancer);
+    @Override
+    public FeedbackDTO addFeedback(FeedbackDTO feedbackDto) {
+        System.out.println(feedbackDto.toString());
+        if (recruiterDao.existsByUserName(feedbackDto.getRecruiterUName())
+                && freelancerDao.existsByUserName(feedbackDto.getFreelancerUName())) {
 
-			return convertToDto(feedbackDao.save(feedback));
-		} else
-			throw new InvalidFeedbackException();
+            Recruiter recruiter = recruiterDao.findByUserName(feedbackDto.getRecruiterUName());
+            Freelancer freelancer = freelancerDao.findByUserName(feedbackDto.getFreelancerUName());
+            Feedback feedback = convertToEntity(feedbackDto);
+            feedback.setCreatedBy(recruiter);
+            feedback.setCreatedFor(freelancer);
 
-	}
+            return convertToDto(feedbackDao.save(feedback));
+        } else
+            throw new InvalidFeedbackException();
 
-	@Override
-	public List<FeedbackListDTO> findFeedbacksForFreelancerByRecruiter(String fId, String rId) {
+    }
 
-	List<FeedbackListDTO> list1= feedbackDao.findFeedbacksForFreelancerByRecruiterId(fId, rId);
-	return  list1;
-	}
+    @Override
+    public List<FeedbackListDTO> findFeedbacksForFreelancerByRecruiter(String fId, String rId) {
 
-	private FeedbackDTO convertToDto(Feedback feedback){
-		return model.map(feedback,FeedbackDTO.class);
-	}
+        List<FeedbackListDTO> list1 = feedbackDao.findFeedbacksForFreelancerByRecruiterId(fId, rId);
+        return list1;
+    }
 
-	private Feedback convertToEntity(FeedbackDTO feedbackDTO){
-		return model.map(feedbackDTO,Feedback.class);
-	}
+    private FeedbackDTO convertToDto(Feedback feedback) {
+        return model.map(feedback, FeedbackDTO.class);
+    }
 
-	private List<FeedbackDTO> convertoDtoList(List<Feedback> feedbackList){
-		return feedbackList.stream().map(this::convertToDto).collect(Collectors.toList());
-	}
+    private Feedback convertToEntity(FeedbackDTO feedbackDTO) {
+        return model.map(feedbackDTO, Feedback.class);
+    }
 
+    private List<FeedbackDTO> convertoDtoList(List<Feedback> feedbackList) {
+        return feedbackList.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
 }
